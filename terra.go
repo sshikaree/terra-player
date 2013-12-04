@@ -1,3 +1,5 @@
+// Command line radio player
+// Author: -=Serj=-
 package main
 
 import (
