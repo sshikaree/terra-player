@@ -1,2 +1,2 @@
 Console program for playing internet radio. Gets streams list from ShoutCast.com.
-Needs VLC for playing.
+Requires VLC for playing.
