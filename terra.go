@@ -19,6 +19,7 @@ import (
 )
 
 const (
+	version  = "Version 0.1.5"
 	vlc_addr = "localhost:9999"
 )
 
@@ -159,7 +160,7 @@ func (p *Player) GetStations(genre string) []Station {
 	}
 
 	type Stations struct {
-		Station []Station `xml:"station"`
+		StationList []Station `xml:"station"`
 	}
 
 	stations := new(Stations)
@@ -168,11 +169,16 @@ func (p *Player) GetStations(genre string) []Station {
 		log.Fatal(err)
 	}
 
-	return stations.Station
+	return stations.StationList
 }
 
 func (p *Player) PlayRandom(stations []Station) {
-	station := stations[rand.Intn(len(stations)-1)]
+	var station Station
+	if len(stations) > 1 {
+		station = stations[rand.Intn(len(stations)-1)]
+	} else {
+		station = stations[0]
+	}
 	id := station.ID
 	if id == "" {
 		fmt.Println("Error occured, stream was not found..")
@@ -259,7 +265,9 @@ func main() {
 	defer player.Close()
 	// defer fmt.Println(colors["BRed"] + "\nPlease, don't forget to kill all VLC players! Sorry for this bug. " + colors["Reset"] + "Bye ;)")
 
-	fmt.Println(colors["Yellow"] + "Command line radio player. Enter 'help' for commands, 'genres' for genres list." + colors["Reset"])
+	fmt.Println(colors["Yellow"] + "TERminal RAdio player.")
+	fmt.Println(version, "\n")
+	fmt.Println("Enter 'help' for commands, 'genres' for genres list." + colors["Reset"])
 
 	rand.Seed(time.Now().UnixNano())
 
